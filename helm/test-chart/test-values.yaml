@@ -1,0 +1,9 @@
+ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  enabled: true
+  hosts:
+    - host: localhost
+      paths:
+        - path: /anvil(/|$)(.*)
+          pathType: Prefix
