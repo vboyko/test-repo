@@ -1,1 +1,1 @@
-Test app's directory.
+Test app directory.
