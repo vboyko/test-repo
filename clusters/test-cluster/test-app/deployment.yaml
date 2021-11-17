@@ -35,4 +35,4 @@ spec:
         - helm/test-chart/test-values.yaml
       interval: 5m
   values:
-    replicaCount: 3
+    replicaCount: 1
