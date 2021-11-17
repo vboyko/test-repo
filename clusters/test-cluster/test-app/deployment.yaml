@@ -1,0 +1,38 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: test-repo
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: ssh://git@github.com/vboyko/test-repo
+  ref:
+    branch: master
+  secretRef:
+    name: git-ssh-credentials
+  ignore: |
+    # exclude all
+    /*
+    # include charts directory
+    !/helm/
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: test-release
+  namespace: default
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: helm/test-chart
+      sourceRef:
+        kind: GitRepository
+        name: test-repo
+        namespace: flux-system
+      valuesFiles:
+        - helm/test-chart/values.yaml
+        - helm/test-chart/test-values.yaml
+      interval: 5m
+  values:
+    replicaCount: 3
